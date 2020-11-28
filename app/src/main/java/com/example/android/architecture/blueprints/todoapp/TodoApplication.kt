@@ -17,6 +17,7 @@
 package com.example.android.architecture.blueprints.todoapp
 
 import android.app.Application
+import androidx.databinding.library.BuildConfig
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
