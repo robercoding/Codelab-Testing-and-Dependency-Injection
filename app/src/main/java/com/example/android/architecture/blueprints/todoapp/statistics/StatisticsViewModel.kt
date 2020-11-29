@@ -16,25 +16,25 @@
 
 package com.example.android.architecture.blueprints.todoapp.statistics
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Result.Error
 import com.example.android.architecture.blueprints.todoapp.data.Result.Success
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.DefaultTasksRepository
+import com.example.android.architecture.blueprints.todoapp.data.source.IDefaultTasksRepository
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the statistics screen.
  */
-class StatisticsViewModel(application: Application) : AndroidViewModel(application) {
+class StatisticsViewModel(private val repository: IDefaultTasksRepository) : ViewModel() {
 
     // Note, for testing and architecture purposes, it's bad practice to construct the repository
     // here. We'll show you how to fix this during the codelab
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
 
-    private val tasks: LiveData<Result<List<Task>>> = tasksRepository.observeTasks()
+    private val tasks: LiveData<Result<List<Task>>> = repository.observeTasks()
     private val _dataLoading = MutableLiveData<Boolean>(false)
     private val stats: LiveData<StatsResult?> = tasks.map {
         if (it is Success) {
@@ -54,8 +54,15 @@ class StatisticsViewModel(application: Application) : AndroidViewModel(applicati
     fun refresh() {
         _dataLoading.value = true
             viewModelScope.launch {
-                tasksRepository.refreshTasks()
+                repository.refreshTasks()
                 _dataLoading.value = false
             }
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class StatisticsViewModelFactory(private val tasksRepository: IDefaultTasksRepository): ViewModelProvider.NewInstanceFactory(){
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return (StatisticsViewModel(tasksRepository) as T)
     }
 }

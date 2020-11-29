@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.android.architecture.blueprints.todoapp.Event
+import com.example.android.architecture.blueprints.todoapp.TodoApplication
 import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.`is`
@@ -24,7 +25,7 @@ class TasksViewModelTest{
 
     @Before
     fun setup(){
-        viewmodel = TasksViewModel(ApplicationProvider.getApplicationContext())
+        viewmodel = TasksViewModel((ApplicationProvider.getApplicationContext() as TodoApplication).tasksRepository)
     }
 
     @Test
