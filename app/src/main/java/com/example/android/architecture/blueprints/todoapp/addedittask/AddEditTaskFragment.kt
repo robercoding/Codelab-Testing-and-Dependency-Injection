@@ -42,7 +42,7 @@ class AddEditTaskFragment : Fragment() {
     private val args: AddEditTaskFragmentArgs by navArgs()
 
     private val viewModel by viewModels<AddEditTaskViewModel>{
-        AddEditViewModelFactory((requireContext() as TodoApplication).tasksRepository)
+        AddEditViewModelFactory((requireContext().applicationContext as TodoApplication).tasksRepository)
     }
 
     override fun onCreateView(

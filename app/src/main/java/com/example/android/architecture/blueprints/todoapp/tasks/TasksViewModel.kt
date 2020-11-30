@@ -16,6 +16,7 @@
 package com.example.android.architecture.blueprints.todoapp.tasks
 
 import android.app.Application
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
@@ -188,6 +189,7 @@ class TasksViewModel constructor(private var tasksRepository: IDefaultTasksRepos
     private fun filterTasks(tasksResult: Result<List<Task>>): LiveData<List<Task>> {
         // TODO: This is a good case for liveData builder. Replace when stable.
         val result = MutableLiveData<List<Task>>()
+
 
         if (tasksResult is Success) {
             isDataLoadingError.value = false

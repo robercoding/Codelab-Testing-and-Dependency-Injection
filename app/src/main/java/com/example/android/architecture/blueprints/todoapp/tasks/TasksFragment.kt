@@ -17,6 +17,7 @@
 package com.example.android.architecture.blueprints.todoapp.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -48,7 +49,6 @@ class TasksFragment : Fragment() {
         TasksViewModelFactory((requireContext().applicationContext as TodoApplication).tasksRepository)
     }
 
-
     private val args: TasksFragmentArgs by navArgs()
 
     private lateinit var viewDataBinding: TasksFragBinding
@@ -67,6 +67,7 @@ class TasksFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
+
         when (item.itemId) {
             R.id.menu_clear -> {
                 viewModel.clearCompletedTasks()
